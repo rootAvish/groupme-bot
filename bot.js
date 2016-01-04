@@ -11,7 +11,7 @@ function respond() {
       listRegex = /^\/warlist$/,
       calloutRegex = /^\/callout (\d*)/,
       deleteRegex = /^delete (\d*)$/,
-      sexReg = /^\/sex$/;
+      sexRegex = /^\/sex$/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
