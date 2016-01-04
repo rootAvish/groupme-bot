@@ -9,7 +9,7 @@ function pretty(inpj) {
     
     var retval = "";
 
-    for(key in inpj) {
+    for(var key in inpj) {
         retval.concat(key + " : " + inpj[key] + "\n"); 
     }
     
