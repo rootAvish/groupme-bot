@@ -10,7 +10,7 @@ function respond() {
       warRegex = /^\/war (.*)$/,
       listRegex = /^\/warlist$/,
       calloutRegex = /^\/callout (\d*)/,
-      deleteRegex = /^delete (\d*)$/,
+      deleteRegex = /^\/delete (\d*)$/,
       sexRegex = /^\/sex$/;
 
   if(request.text && botRegex.test(request.text)) {
