@@ -8,7 +8,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/cool guy$/,
       warRegex = /^\/war (.*)$/,
-      listRegex = /^\/warlist$/,,
+      listRegex = /^\/warlist$/,
       calloutRegex = /^\/callout (\d*)/;
 
   if(request.text && botRegex.test(request.text)) {
