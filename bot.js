@@ -29,10 +29,10 @@ function respond() {
 
   else if (request.text && calloutRegex.test(request.text) ) {
     this.res.writeHead(200);
-    postMessage();
     var match = calloutRegex.exec(request.text);
     warlist[match[1]] = request.name; 
     
+    postMessage("Target " + match[1] + "has been called by: " + request.name);
     this.res.end();
   }
    else if (request.text && listRegex.test(request.text) ) {
@@ -43,6 +43,7 @@ function respond() {
   else if (request.text && deleteRegex.test(request.text) ) {
     this.res.writeHead(200);
     var match = deleteRegex.exec(request.text);
+    delete warlist[match[1]];
     postMessage("Call on target " + match[1] + " has been deleted.");
     this.res.end();
   }
