@@ -1,45 +1,56 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
-
+var currentwar;
+var warlist = {};
 var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /^\/cool guy$/;
+      botRegex = /^\/cool guy$/,
+      warRegex = /^\/war (.*)$/,
+      listRegex = /^\/warlist$/,,
+      calloutRegex = /^\/callout (\d*)/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage(false);
+    postMessage(cool());
     this.res.end();
-  } else {
+  }
+  else if (request.text && warRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    currentwar = true;
+    var match = warRegex.exec(request.text);
+    postMessage("War has been declared against " + match[1]);
+    warlist = {};
+    this.res.end();
+  }
+
+  else if (request.text && calloutRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    postMessage();
+    var match = calloutRegex.exec(request.text);
+    warlist[match[1]] = request.name; 
+    
+    this.res.end();
+  }
+   else if (request.text && listRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    postMessage(JSON.stringify(warlist));
+    this.res.end();
+  }
+   
+  else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
 
-  createWarRegex = /^\!war .*$/;
 }
 
-var arg = function(table) {
-    
-    var table = {};
-
-    table["1"] = "LaMotta";
-
-    if (table) {
-        
-        return JSON.stringify(table);
-    }
-
-    else
-
-        return cool();
-}
-
-function postMessage(table) {
+function postMessage(message) {
   var botResponse, options, body, botReq;
 
-  botResponse = arg(table);
+  botResponse = message;
 
   options = {
     hostname: 'api.groupme.com',
