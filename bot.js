@@ -9,7 +9,9 @@ function respond() {
       botRegex = /^\/cool guy$/,
       warRegex = /^\/war (.*)$/,
       listRegex = /^\/warlist$/,
-      calloutRegex = /^\/callout (\d*)/;
+      calloutRegex = /^\/callout (\d*)/,
+      deleteRegex = /^delete (\d*)$/,
+      sexReg = /^\/sex$/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -35,10 +37,21 @@ function respond() {
   }
    else if (request.text && listRegex.test(request.text) ) {
     this.res.writeHead(200);
-    postMessage(JSON.stringify(warlist));
+    postMessage(JSON.stringify(warlist, null, 2));
     this.res.end();
   }
-   
+  else if (request.text && deleteRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    var match = deleteRegex.exec(request.text);
+    postMessage("Call on target " + match[1] + " has been deleted.");
+    this.res.end();
+  }
+  else if (request.text && sexRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    postMessage("This Chat is fucking Cancer.");
+    this.res.end();
+  }
+
   else {
     console.log("don't care");
     this.res.writeHead(200);
