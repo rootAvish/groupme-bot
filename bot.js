@@ -4,6 +4,18 @@ var currentwar;
 var warlist = {};
 var botID = process.env.BOT_ID;
 
+// A function to pretty print the JSON
+function pretty(inpj) {
+    
+    var retval = "";
+
+    for(key in inpj) {
+        retval.concat(key + " : " + inpj[key] + "\n"); 
+    }
+
+    return retval;
+}
+
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/cool guy$/,
@@ -32,7 +44,7 @@ function respond() {
     var match = calloutRegex.exec(request.text);
     warlist[match[1]] = request.name; 
     
-    postMessage("Target " + match[1] + "has been called by: " + request.name);
+    postMessage("Target " + match[1] + " has been called by " + request.name);
     this.res.end();
   }
    else if (request.text && listRegex.test(request.text) ) {
