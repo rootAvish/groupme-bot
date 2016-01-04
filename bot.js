@@ -9,19 +9,37 @@ function respond() {
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(false);
     this.res.end();
   } else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
+
+  createWarRegex = /^\!war .*$/;
 }
 
-function postMessage() {
+var arg = function(table) {
+    
+    var table = {};
+
+    table["1"] = "LaMotta";
+
+    if (table) {
+        
+        return JSON.stringify(table);
+    }
+
+    else
+
+        return cool();
+}
+
+function postMessage(table) {
   var botResponse, options, body, botReq;
 
-  botResponse = cool();
+  botResponse = arg(table);
 
   options = {
     hostname: 'api.groupme.com',
