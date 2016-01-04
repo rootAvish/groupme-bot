@@ -12,6 +12,9 @@ function pretty(inpj) {
     for(key in inpj) {
         retval.concat(key + " : " + inpj[key] + "\n"); 
     }
+    
+    if (retval === "")
+        retval = "No targets called yet"
 
     return retval;
 }
@@ -49,7 +52,7 @@ function respond() {
   }
    else if (request.text && listRegex.test(request.text) ) {
     this.res.writeHead(200);
-    postMessage(JSON.stringify(warlist, null, 2));
+    postMessage(pretty(warlist));
     this.res.end();
   }
   else if (request.text && deleteRegex.test(request.text) ) {
