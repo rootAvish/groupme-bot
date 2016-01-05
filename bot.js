@@ -129,7 +129,7 @@ var callback = function(parsed) {
     var url = "api.groupme.com/v3/groups/" + group_id + '?token=' + process.env.TOKEN;
     
 
-    http.get(url, function(res){
+    HTTPS.get(url, function(res){
         var body = '';
 
         res.on('data', function(chunk){
