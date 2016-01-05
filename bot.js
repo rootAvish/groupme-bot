@@ -153,6 +153,8 @@ function postMessage(message) {
     attachments = [];
   }
 
+  console.log(body);
+
   console.log('sending ' + botResponse + ' to ' + botID);
 
   botReq = HTTPS.request(options, function(res) {
