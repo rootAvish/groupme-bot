@@ -2,6 +2,9 @@ var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 var currentwar;
 var warlist = {};
+var attachment = false;
+var attachments = [];
+
 var botID = process.env.BOT_ID;
 
 // A function to pretty print the JSON
@@ -23,10 +26,32 @@ var tagAll = function(members) {
 
   var msg = '';
 
-  for(member in members) {
+  var mentions = [];
 
-    msg += '<b>@' + members[member].nickname + '</b> ';
+  var loci = [];
+
+  var index = 0;
+
+  for(member in members) {
+    loci = [];
+    mentions.push(members[member].user_id);
+
+    msg += '@' + members[member].nickname+' ';
+    
+    // +1 for the @
+    loci.push([index, index + members[member].nickname.length + 1]);
+
+    // leave a character for the space as well
+    index += members[member].nickname.length + 2;
   }
+
+  attachments.push({
+    "type": "mentions",
+    "loci": loci,
+    "user_ids": mentions
+  });
+
+  attachment = true;
 
   postMessage(msg);
 }
@@ -120,6 +145,13 @@ function postMessage(message) {
     "bot_id" : botID,
     "text" : botResponse
   };
+
+  if (attachment == true) {
+
+    body["attachments"] = attachments;
+    attachment = false;
+    attachments = [];
+  }
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
