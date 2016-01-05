@@ -33,7 +33,6 @@ var tagAll = function(members) {
   var index = 0;
 
   for(member in members) {
-    loci = [];
     mentions.push(members[member].user_id);
 
     msg += '@' + members[member].nickname+' ';
