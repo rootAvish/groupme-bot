@@ -19,6 +19,19 @@ function pretty(inpj) {
     return retval;
 }
 
+var tagAll = function(members) {
+
+  var msg = '';
+
+  for(member in members) {
+
+    msg += '@' + members[member].nickname + ' ';
+  }
+
+  postMessage(msg);
+}
+
+
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/cool guy$/,
@@ -27,6 +40,7 @@ function respond() {
       calloutRegex = /^\/callout (\d*)/,
       deleteRegex = /^\/delete (\d*)$/,
       sexRegex = /^\/sex$/;
+      clanRegex=/^\/clan$/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -65,6 +79,21 @@ function respond() {
   else if (request.text && sexRegex.test(request.text) ) {
     this.res.writeHead(200);
     postMessage("This Chat is fucking Cancer.");
+    this.res.end();
+  }
+
+  else if (request.text && clanRegex.test(request.text) ) {
+    this.res.writeHead(200);
+    currentwar = true;
+    
+    if (request.name == 'Avi (One star specialist first class)' || request.name == 'Ryann' || request.name == 'LaMotta 34') {
+      getChannelUserList(tagAll);
+    }
+
+    else {
+      postMessage("Sorry, you're not allowed to do that");
+    }
+
     this.res.end();
   }
 
@@ -115,19 +144,13 @@ function postMessage(message) {
 exports.respond = respond;
 
 
-var callback = function(parsed) {
-
-  console.log(parsed);
-
-};
-
 // Ping the groupme API for a list of all users on this channel.
-(function getChannelUserList(callback) {
+function getChannelUserList(callback) {
 
     // group id for the Bandits chat
     var group_id = 10323393;
-    var url = "api.groupme.com/v3/groups/" + group_id + '?token=' + process.env.TOKEN;
-    
+
+    var url = "https://api.groupme.com/v3/groups/10323393?token=" + process.env.TOKEN;
 
     HTTPS.get(url, function(res){
         var body = '';
@@ -138,10 +161,12 @@ var callback = function(parsed) {
 
         res.on('end', function(){
             var fbResponse = JSON.parse(body);
-            console.log("Got a response: ", fbResponse.picture);
+
+            callback(fbResponse.response.members);
         });
+
     }).on('error', function(e){
           console.log("Got an error: ", e);
     });
 
-})();
+};
