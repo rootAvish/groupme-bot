@@ -113,3 +113,35 @@ function postMessage(message) {
 
 
 exports.respond = respond;
+
+
+var callback = function(parsed) {
+
+  console.log(parsed);
+
+};
+
+// Ping the groupme API for a list of all users on this channel.
+(function getChannelUserList(callback) {
+
+    // group id for the Bandits chat
+    var group_id = 10323393;
+    var url = "api.groupme.com/v3/groups/" + group_id + '?token=' + process.env.TOKEN;
+    
+
+    http.get(url, function(res){
+        var body = '';
+
+        res.on('data', function(chunk){
+            body += chunk;
+        });
+
+        res.on('end', function(){
+            var fbResponse = JSON.parse(body);
+            console.log("Got a response: ", fbResponse.picture);
+        });
+    }).on('error', function(e){
+          console.log("Got an error: ", e);
+    });
+
+})();
