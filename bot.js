@@ -25,7 +25,7 @@ var tagAll = function(members) {
 
   for(member in members) {
 
-    msg += '@' + members[member].nickname + ' ';
+    msg += '<b>@' + members[member].nickname + '</b> ';
   }
 
   postMessage(msg);
